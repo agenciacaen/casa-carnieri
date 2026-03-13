@@ -1,0 +1,44 @@
+[
+  {
+    "id": "fotografia-para-advogados",
+    "title": "Fotografia para advogados",
+    "link": "ensaio/fotografia-para-advogados/index.html",
+    "coverImage": "https://casacarnieri.com.br/wp-content/uploads/2026/02/fotografia5.webp"
+  },
+  {
+    "id": "ensaio-fotografico-advogada",
+    "title": "Ensaio fotografico advogada",
+    "link": "ensaio/ensaio-fotografico-advogada/index.html",
+    "coverImage": "https://casacarnieri.com.br/wp-content/uploads/2026/02/image_29_1x.webp"
+  },
+  {
+    "id": "colheita-do-cafe",
+    "title": "Colheita do cafe",
+    "link": "ensaio/colheita-do-cafe/index.html",
+    "coverImage": "https://casacarnieri.com.br/wp-content/uploads/2026/02/image_46_1x.webp"
+  },
+  {
+    "id": "campanha-praisce-capital",
+    "title": "Campanha praisce capital",
+    "link": "ensaio/campanha-praisce-capital/index.html",
+    "coverImage": "https://casacarnieri.com.br/wp-content/uploads/2026/02/image_42_1x.webp"
+  },
+  {
+    "id": "beatriz",
+    "title": "Beatriz",
+    "link": "ensaio/beatriz/index.html",
+    "coverImage": "https://casacarnieri.com.br/wp-content/uploads/2026/02/fotografia7.webp"
+  },
+  {
+    "id": "atriz-danielle-avelleda",
+    "title": "Atriz danielle avelleda",
+    "link": "ensaio/atriz-danielle-avelleda/index.html",
+    "coverImage": "https://casacarnieri.com.br/wp-content/uploads/2026/02/Curitiba-Ensaio-Feminino-1.webp"
+  },
+  {
+    "id": "ana-paula-2",
+    "title": "Ana paula 2",
+    "link": "ensaio/ana-paula-2/index.html",
+    "coverImage": "https://casacarnieri.com.br/wp-content/uploads/2026/02/ensaio_feminino_retratos_ana_paula_passos_011_hotel_fazenda_caina_pr_1_1x-1.webp"
+  }
+]
