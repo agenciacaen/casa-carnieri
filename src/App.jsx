@@ -14,8 +14,9 @@ import {
 } from 'lucide-react';
 import './App.css';
 
-// URL da API do backend (trocar pelo endereço da VPS em produção)
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+// URL da Edge Function no Supabase
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://mvbxpnmdcijfzoexwvla.supabase.co';
+const EDGE_FUNCTION_URL = `${SUPABASE_URL}/functions/v1/chat`;
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -68,10 +69,10 @@ function App() {
     e.preventDefault();
     setLoginError('');
     try {
-      const res = await fetch(`${API_URL}/api/login`, {
+      const res = await fetch(EDGE_FUNCTION_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password })
+        body: JSON.stringify({ type: 'login', password })
       });
       const data = await res.json();
       if (data.success) {
@@ -96,7 +97,7 @@ function App() {
     setIsLoading(true);
 
     try {
-      const res = await fetch(`${API_URL}/api/chat`, {
+      const res = await fetch(EDGE_FUNCTION_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -144,7 +145,7 @@ function App() {
     formData.append('image', file);
 
     try {
-      const res = await fetch(`${API_URL}/api/upload`, {
+      const res = await fetch(`${SUPABASE_URL}/functions/v1/chat`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData
