@@ -109,7 +109,7 @@ function App() {
       const data = await res.json();
 
       if (data.error) {
-        addAIMessage(`❌ Erro: ${data.error}`);
+        addAIMessage(`❌ Erro: ${data.error}${data.details ? `\n\nDetalhes: ${data.details}` : ''}`);
       } else {
         let replyText = data.reply;
         
