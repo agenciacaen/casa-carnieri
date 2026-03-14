@@ -1,9 +1,21 @@
-import contentData from './data/content.json';
-import portfolioData from './data/portfolio.json';
+async function fetchData() {
+    try {
+        const [contentRes, portfolioRes] = await Promise.all([
+            fetch('./data/content.json?v=' + Date.now()),
+            fetch('./data/portfolio.json?v=' + Date.now())
+        ]);
+        
+        const contentData = await contentRes.json();
+        const portfolioData = await portfolioRes.json();
+        
+        console.log('Dados carregados dinamicamente:', contentData, portfolioData);
+        renderContent(contentData, portfolioData);
+    } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+    }
+}
 
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('Dados carregados:', contentData, portfolioData);
-    
+function renderContent(contentData, portfolioData) {
     // Atualizar textos estáticos principais
     const heroTitle = document.querySelector('h1');
     if(heroTitle) heroTitle.textContent = contentData.hero.title;
@@ -18,16 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if(textEditors.length >= 1) {
         textEditors[0].innerHTML = contentData.about.text;
     }
+
     // Atualizar Portfólio Dinamicamente
     const portfolioContainer = document.querySelector('.elementor-posts-container');
     if (portfolioContainer && portfolioData && portfolioData.length > 0) {
-        // Limpar conteúdo estático (opcional, ou apenas adicionar aos existentes)
-        // portfolioContainer.innerHTML = ''; 
+        // Limpar conteúdo anterior para garantir atualização realista
+        portfolioContainer.innerHTML = ''; 
 
         portfolioData.forEach(item => {
-            // Verificar se o item já existe para evitar duplicatas se rodar múltiplas vezes
-            if (document.querySelector(`[data-portfolio-id="${item.id}"]`)) return;
-
             const article = document.createElement('article');
             article.className = 'elementor-post elementor-grid-item post-193 ensaio type-ensaio status-publish has-post-thumbnail hentry';
             article.setAttribute('data-portfolio-id', item.id);
@@ -48,4 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
             portfolioContainer.appendChild(article);
         });
     }
-});
+}
+
+document.addEventListener('DOMContentLoaded', fetchData);
+
