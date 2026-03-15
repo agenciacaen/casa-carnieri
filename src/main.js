@@ -55,13 +55,31 @@ function renderContent(contentData, portfolioData) {
         heroCtaBtn.textContent = contentData.buttons.hero_cta;
     }
 
-    // 5. Botão Serviços (Custom .botao2) - Caso exista no live
+    // 5. Botão Serviços (Custom .botao2)
     const servicesBtn = document.querySelector('.botao2 span');
     if (servicesBtn && contentData.buttons?.services) {
         servicesBtn.textContent = contentData.buttons.services;
     }
 
-    // 6. Stats Label - Seletor exato live
+    // 6. Botão Eternalizar Momentos (Abaixo do Vídeo)
+    const eternalizarBtn = document.querySelector('.elementor-element-2475026 .elementor-button-text');
+    if (eternalizarBtn && contentData.buttons?.eternalizar) {
+        eternalizarBtn.textContent = contentData.buttons.eternalizar;
+    }
+
+    // 7. Botão Eleve Seu Posicionamento (Seção A Casa Carnieri)
+    const eleveBtn = document.querySelector('.elementor-element-7f13c6d .elementor-button-text');
+    if (eleveBtn && contentData.buttons?.eleve_posicionamento) {
+        eleveBtn.textContent = contentData.buttons.eleve_posicionamento;
+    }
+
+    // 8. Botão Valorizar Minha Imagem (Formulário Rodapé)
+    const valorizarBtn = document.querySelector('.elementor-element-3b6b100 .elementor-button-text');
+    if (valorizarBtn && contentData.buttons?.valorizar_imagem) {
+        valorizarBtn.textContent = contentData.buttons.valorizar_imagem;
+    }
+
+    // 9. Stats Label - Seletor exato live
     const statsLabel = document.querySelector('.elementor-element-21014e7a .elementor-heading-title');
     if (statsLabel && contentData.sections?.stats?.label) {
         statsLabel.textContent = contentData.sections.stats.label;
