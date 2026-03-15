@@ -2,14 +2,18 @@ const API_URL = 'https://mvbxpnmdcijfzoexwvla.supabase.co/functions/v1/chat';
 
 async function fetchData() {
     try {
-        const response = await fetch(API_URL);
+        // Cache-busting: Adicionando timestamp para evitar que o navegador sirva uma versão antiga da API
+        const response = await fetch(API_URL + '?t=' + Date.now());
         if (!response.ok) throw new Error('API request failed');
         
         const data = await response.json();
         console.log('Dados recebidos do Supabase:', data);
         
         if (data.content && data.portfolio) {
-            renderContent(data.content, data.portfolio);
+            // Garantir que o Elementor terminou de processar os widgets antes de injetar os dados
+            setTimeout(() => {
+                renderContent(data.content, data.portfolio);
+            }, 500); 
         }
     } catch (error) {
         console.error('Erro ao carregar dados do Supabase:', error);

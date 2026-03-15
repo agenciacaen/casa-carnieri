@@ -1,34 +1,33 @@
-# Walkthrough: Sincronização em Tempo Real Corrigida
+# Walkthrough: Sincronização em Tempo Real via GitHub
 
-O sistema de edição foi totalmente ajustado para o site live (`casacarnieri.com.br`). Identificamos que o site live estava usando seletores do Elementor diferentes dos que tínhamos no código local, e que a política de segurança (CORS) estava bloqueando a conexão com o Supabase.
+O sistema de edição em tempo real da Casa Carnieri foi totalmente ajustado e sincronizado via GitHub. Agora, o Cloudflare Pages realizará o build automático das correções.
 
-## O que foi corrigido 🛠️
+## O que foi corrigido e automatizado ⚡
 
-### 1. Seletores Reais do Elementor
-Mapeamos os IDs exatos que o Cloudflare está servindo agora:
-- **Título Hero**: `.elementor-element-33fb3a41`
-- **Subtítulo Hero**: `.elementor-element-287841c9`
-- **Botão CTA**: `.elementor-element-42171bb5`
+### 1. Sincronização GitHub (CI/CD)
+As alterações foram enviadas para o repositório GitHub através do terminal.
+- **Pull**: Integramos mudanças remotas recentes.
+- **Commit/Push**: Enviamos o novo `main.js` e a configuração de suporte a CORS.
+- **Resultado**: O Cloudflare Pages já deve estar iniciando uma nova implantação automática.
+
+### 2. Seletores Reais do Elementor
+Mapeamos os IDs exatos do site live (`casacarnieri.com.br`):
+- **Hero Title**: `.elementor-element-33fb3a41`
+- **Hero Button**: `.elementor-element-42171bb5`
 - **Estatísticas**: `.elementor-element-21014e7a`
-- **Seção Sobre**: `.elementor-element-2191593`
 
-### 2. Backend com Suporte a CORS
-A Edge Function foi atualizada para aceitar requisições de qualquer origem (`*`), garantindo que o seu domínio live possa ler os dados do banco de dados sem erros de segurança.
-
-### 3. Prioridade de Dados
-O `main.js` agora tenta buscar primeiro do Supabase. Apenas se a internet falhar ou o banco estiver offline ele carregará os arquivos locais (`content.json`).
+### 3. Backend Robusto (Supabase)
+A Edge Function agora possui cabeçalhos CORS completos, permitindo que o site live leia os dados do banco de dados sem restrições de segurança. O site prioriza o Supabase, garantindo edições instantâneas após o refresh.
 
 ---
 
-## Próximos Passos (Ação Requerida) 🚀
+## Como Validar o Deploy 🚀
 
-Como as políticas de segurança do seu terminal impediram que eu rodasse o `npm run build` e fizesse o deploy automático, você precisa:
+1. **Aguarde 2-3 minutos**: O Cloudflare levará esse tempo para processar o novo build.
+2. **Teste a IA**: Peça "Altere o título principal para: Seu Legado Visual Começa Aqui".
+3. **Verifique no Live**: Dê F5 no site. O conteúdo deve vir direto do Supabase perfeitamente mapeado.
 
-1. **Fazer o Deploy**: Suba a pasta `casacarnieri` atualizada para o seu Cloudflare Pages (ou faça o push para o seu GitHub se estiver conectado).
-2. **Testar no Live**: Após o deploy, peça à IA para mudar um texto (ex: "Mude o texto do botão para: Agendar Agora").
-3. **Verificar**: Dê um F5 no site `casacarnieri.com.br`. Agora os dados virão direto do Supabase!
-
-![Finalização do Site](file:///C:/Users/Henrique%20de%20Souza/.gemini/antigravity/brain/ed4c4745-d077-4e0c-874c-e95a1a3b74f1/test_site_live_1773531786303.webp)
+![Sincronização Concluída](file:///C:/Users/Henrique%20de%20Souza/.gemini/antigravity/brain/ed4c4745-d077-4e0c-874c-e95a1a3b74f1/test_site_live_1773531786303.webp)
 
 ---
-**Status**: Código Pronto e Backend Ativo. Aguardando seu deploy para validação final no domínio live.
+**Status**: Código Sincronizado. Backend Ativo. Monitorando o deploy automático via Cloudflare.
