@@ -1,42 +1,78 @@
+const API_URL = 'https://mvbxpnmdcijfzoexwvla.supabase.co/functions/v1/chat';
+
 async function fetchData() {
     try {
-        const [contentRes, portfolioRes] = await Promise.all([
-            fetch('./data/content.json?v=' + Date.now()),
-            fetch('./data/portfolio.json?v=' + Date.now())
-        ]);
+        const response = await fetch(API_URL);
+        if (!response.ok) throw new Error('API request failed');
         
-        const contentData = await contentRes.json();
-        const portfolioData = await portfolioRes.json();
+        const data = await response.json();
+        console.log('Dados recebidos do Supabase:', data);
         
-        console.log('Dados carregados dinamicamente:', contentData, portfolioData);
-        renderContent(contentData, portfolioData);
+        if (data.content && data.portfolio) {
+            renderContent(data.content, data.portfolio);
+        }
     } catch (error) {
-        console.error('Erro ao carregar dados:', error);
+        console.error('Erro ao carregar dados do Supabase:', error);
+        // Fallback para dados locais se a API falhar
+        try {
+            const [contentRes, portfolioRes] = await Promise.all([
+                fetch('./data/content.json?v=' + Date.now()),
+                fetch('./data/portfolio.json?v=' + Date.now())
+            ]);
+            renderContent(await contentRes.json(), await portfolioRes.json());
+        } catch (e) {
+            console.error('Fallback falhou:', e);
+        }
     }
 }
 
 function renderContent(contentData, portfolioData) {
-    // Atualizar textos estáticos principais
-    const heroTitle = document.querySelector('h1');
-    if(heroTitle) heroTitle.textContent = contentData.hero.title;
-
-    const heroSubtitleElements = document.querySelectorAll('.elementor-widget-heading h2');
-    if(heroSubtitleElements.length >= 2) {
-        heroSubtitleElements[0].textContent = contentData.hero.subtitle;
-        heroSubtitleElements[1].textContent = contentData.about.title;
+    // 1. Hero Title - Seletor exato do site live
+    const heroTitle = document.querySelector('.elementor-element-33fb3a41 h2.elementor-heading-title');
+    if(heroTitle && contentData.hero?.title) {
+        heroTitle.innerHTML = contentData.hero.title;
     }
 
-    const textEditors = document.querySelectorAll('.elementor-text-editor');
-    if(textEditors.length >= 1) {
-        textEditors[0].innerHTML = contentData.about.text;
+    // 2. Hero Subtitle - Seletor exato do site live
+    const heroSubtitle = document.querySelector('.elementor-element-287841c9 h2.elementor-heading-title');
+    if(heroSubtitle && contentData.hero?.subtitle) {
+        heroSubtitle.textContent = contentData.hero.subtitle;
     }
 
-    // Atualizar Portfólio Dinamicamente
+    // 3. About Section Title/Bio - Seletor exato (Container que engloba o texto sobre)
+    const aboutTitle = document.querySelector('.elementor-element-2191593 .elementor-heading-title');
+    if(aboutTitle && contentData.about?.title) {
+        aboutTitle.textContent = contentData.about.title;
+    }
+
+    // 4. Botão Hero CTA - Seletor exato do botão Elementor
+    const heroCtaBtn = document.querySelector('.elementor-element-42171bb5 a.elementor-button .elementor-button-text');
+    if (heroCtaBtn && contentData.buttons?.hero_cta) {
+        heroCtaBtn.textContent = contentData.buttons.hero_cta;
+    }
+
+    // 5. Botão Serviços (Custom .botao2) - Caso exista no live
+    const servicesBtn = document.querySelector('.botao2 span');
+    if (servicesBtn && contentData.buttons?.services) {
+        servicesBtn.textContent = contentData.buttons.services;
+    }
+
+    // 6. Stats Label - Seletor exato live
+    const statsLabel = document.querySelector('.elementor-element-21014e7a .elementor-heading-title');
+    if (statsLabel && contentData.sections?.stats?.label) {
+        statsLabel.textContent = contentData.sections.stats.label;
+    }
+
+    // 7. About Text (Fallback seletor genérico do Elementor)
+    const aboutText = document.querySelector('.elementor-element-2191593 .elementor-text-editor');
+    if(aboutText && contentData.about?.text) {
+        aboutText.innerHTML = contentData.about.text;
+    }
+
+    // 8. Portfólio Dinâmico
     const portfolioContainer = document.querySelector('.elementor-posts-container');
     if (portfolioContainer && portfolioData && portfolioData.length > 0) {
-        // Limpar conteúdo anterior para garantir atualização realista
         portfolioContainer.innerHTML = ''; 
-
         portfolioData.forEach(item => {
             const article = document.createElement('article');
             article.className = 'elementor-post elementor-grid-item post-193 ensaio type-ensaio status-publish has-post-thumbnail hentry';
